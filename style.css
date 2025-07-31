@@ -62,7 +62,7 @@
     transition: all 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55);
 
     /* Custom GIF background for the expanded panel */
-    background-image: url('https://i.pinimg.com/originals/54/f6/20/54f620699cef1b5736f989356f235da9.gif'); /* Placeholder GIF URL */
+    background-image: url('https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaW50MW1uYnlqZ2N1d25kZW5hZ2s2ZG9zY3lqZ25vYXFjM3Q1N3F6aiZlcD12MV9pbnRlcm5uYWxfnaWZfYnlfaWQmY3Q9Zw/3o7bu3XyLgq3g1YQKI/giphy.gif'); /* Placeholder GIF URL */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -234,12 +234,12 @@
 }
 
 .popup-content-wrapper {
-    /* Set fixed dimensions for the pop-up content to match the image */
-    width: 1920px; /* Updated width for landscape image */
-    height: 1080px; /* Updated height for landscape image */
-    /* Override max-w/max-h from Tailwind if they were on this element */
-    max-width: 90vw; /* Ensure it doesn't exceed viewport width */
-    max-height: 90vh; /* Ensure it doesn't exceed viewport height */
+    /* Responsive dimensions for the pop-up content */
+    width: 90vw;
+    height: auto; /* Let the height be determined by the content */
+    max-width: 1920px; /* A reasonable max-width for large screens */
+    /* Override max-h from Tailwind */
+    max-height: none;
     /* Ensure padding is considered in the total size */
     box-sizing: border-box;
     /* Removed background and padding to make the image the sole content */
@@ -261,7 +261,8 @@
 /* Ensure the image inside the popup fills its container */
 #popup-image {
     width: 100%;
-    height: 100%;
+    height: auto; /* Let the height scale with the width to maintain aspect ratio */
+    max-height: 90vh; /* Ensure the image doesn't overflow the viewport height */
     object-fit: contain; /* Use contain to ensure the whole image is visible */
     border-radius: 0.5rem; /* Apply rounded corners to the image itself */
 }
