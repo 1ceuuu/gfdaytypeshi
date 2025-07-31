@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Girlfriends Day!</title>
+    <!-- Link to our CSS file for styling -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Load Tailwind CSS for utility classes -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Font Import: Dancing Script for a more elegant look -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Custom Tailwind configuration for rounded corners and font -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    borderRadius: {
+                        'xl': '1rem',
+                        '2xl': '2rem',
+                        '3xl': '3rem',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        // Add our new custom font here
+                        'dancing-script': ['Dancing Script', 'cursive'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="flex items-center justify-center min-h-screen font-sans p-4" style="background-image: url('https://i.pinimg.com/originals/b8/26/1f/b8261f0163fff2cc01c5cb1159d4767b.gif'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+
+    <div id="envelope-wrapper" class="relative w-80 h-56 cursor-pointer transform transition-transform duration-700 ease-in-out">
+        <!-- The main envelope body -->
+        <div id="envelope" class="relative w-full h-full bg-pink-400 rounded-xl shadow-lg overflow-hidden">
+            <!-- Envelope back -->
+            <div class="envelope-back absolute inset-0 bg-pink-500 z-0"></div>
+
+            <!-- Envelope flap - top -->
+            <div class="envelope-flap-top absolute top-0 left-0 w-full h-1/2 bg-pink-500 rounded-t-xl origin-top transform transition-transform duration-700 ease-in-out z-10"></div>
+
+            <!-- The Heart in the center of the envelope -->
+            <div id="envelope-heart" class="absolute z-20"></div>
+
+            <!-- "Click Me" text on the envelope -->
+            <div id="click-me-text" class="absolute inset-0 flex items-center justify-center text-white text-2xl font-bold opacity-100 transition-opacity duration-300 z-20">
+                Click Me!
+            </div>
+        </div>
+
+        <!-- The letter content, initially hidden -->
+        <div id="letter" class="absolute inset-0 bg-white p-6 rounded-xl shadow-xl transform scale-0 opacity-0 transition-all duration-700 ease-in-out grid grid-cols-2 gap-4">
+            <div class="flex flex-col items-start justify-center p-4">
+                <img src="ee294b55-92a0-43ec-a72f-460bad8567f0.png" alt="Happy Girlfriends Day Greeting" class="max-w-full h-auto object-contain">
+            </div>
+
+            <div id="letter-panel" class="panel rounded-lg shadow-md flex items-center justify-center text-center cursor-pointer hover:shadow-xl transition-shadow duration-200">
+                <img src="Letter4U.png" alt="Letter for U" class="max-w-full h-full object-cover rounded-lg">
+            </div>
+            <div id="songs-panel" class="panel rounded-lg shadow-md flex items-center justify-center text-center cursor-pointer hover:shadow-xl transition-shadow duration-200">
+                <img src="Songs4U.png" alt="Songs for U" class="max-w-full h-full object-cover rounded-lg">
+            </div>
+            <div id="reasons-panel" class="panel rounded-lg shadow-md flex items-center justify-center text-center cursor-pointer hover:shadow-xl transition-shadow duration-200">
+                <img src="100Reasons.png" alt="100 Reasons Why I Love You" class="max-w-full h-full object-cover rounded-lg">
+            </div>
+            <!-- Add more panels here if needed -->
+        </div>
+    </div>
+
+    <!-- Image Pop-up Container (initially hidden) -->
+    <div id="image-popup" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-[1000] opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="popup-content-wrapper relative rounded-lg shadow-2xl flex flex-col items-center justify-center overflow-hidden">
+            <button id="close-popup" class="absolute top-2 right-2 text-white text-3xl font-bold bg-gray-800 rounded-full w-10 h-10 flex items-center justify-center leading-none z-10 hover:bg-gray-700 transition-colors">
+                &times;
+            </button>
+            <img id="popup-image" src="chloeletter.png" alt="Pop-up Image" class="max-w-full max-h-full object-contain rounded-lg">
+        </div>
+        <!-- Container for sprinkling hearts -->
+        <div id="heart-sprinkle-container" class="absolute inset-0 pointer-events-none"></div>
+    </div>
+
+    <!-- Songs Pop-up Container (initially hidden) -->
+    <div id="songs-popup" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-[1000] opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="songs-popup-content-wrapper relative bg-white rounded-lg shadow-2xl overflow-hidden p-4">
+            <button id="close-songs-popup" class="absolute top-2 right-2 text-white text-3xl font-bold bg-gray-800 rounded-full w-10 h-10 flex items-center justify-center leading-none z-10 hover:bg-gray-700 transition-colors">
+                &times;
+            </button>
+            <div class="songs-layout-grid w-full h-full grid grid-cols-5 grid-rows-3 gap-3 items-center justify-center">
+                <!-- Song 1 (Top Left) -->
+                <img src="CAS.jpg" alt="Song 1 Thumbnail" class="song-thumbnail cursor-pointer rounded-lg object-cover w-full h-full col-start-1 row-start-1" data-song-src="CAS.mp3">
+                
+                <!-- Song 4 (Top Right) -->
+                <img src="bestfriend.jpg" alt="Song 4 Thumbnail" class="song-thumbnail cursor-pointer rounded-lg object-cover w-full h-full col-start-5 row-start-1" data-song-src="BestFriend.mp3">
+
+                <!-- Song 2 (Middle Left) -->
+                <img src="scientist.jpg" alt="Song 2 Thumbnail" class="song-thumbnail cursor-pointer rounded-lg object-cover w-full h-full col-start-1 row-start-2" data-song-src="Scientist.mp3">
+                
+                <!-- Song 5 (Middle Right) -->
+                <img src="Missmiss.jpg" alt="Song 5 Thumbnail" class="song-thumbnail cursor-pointer rounded-lg object-cover w-full h-full col-start-5 row-start-2" data-song-src="MissMiss.mp3">
+
+                <!-- Song 3 (Bottom Left) -->
+                <img src="alwayslove.jpg" alt="Song 3 Thumbnail" class="song-thumbnail cursor-pointer rounded-lg object-cover w-full h-full col-start-1 row-start-3" data-song-src="AlwaysLove.mp3">
+                
+                <!-- Song 6 (Bottom Right) -->
+                <img src="summertime.jpg" alt="Song 6 Thumbnail" class="song-thumbnail cursor-pointer rounded-lg object-cover w-full h-full col-start-5 row-start-3" data-song-src="Summertime.mp3">
+
+                <!-- Central Image -->
+                <div class="central-image-wrapper col-start-2 col-end-5 row-start-1 row-end-4 flex items-center justify-center">
+                    <img id="central-song-image" src="https://i.pinimg.com/1200x/c7/97/0c/c7970ca6e9acd82f2b5479b07d6a0beb.jpg" alt="Central Song Image" class="object-contain rounded-lg max-w-full max-h-full">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 100 Reasons Pop-up Container (initially hidden) -->
+    <div id="reasons-popup" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-[1000] opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="reasons-popup-content-wrapper relative bg-white rounded-lg shadow-2xl overflow-hidden p-6 text-center">
+            <button id="close-reasons-popup" class="absolute top-2 right-2 text-white text-3xl font-bold bg-gray-800 rounded-full w-10 h-10 flex items-center justify-center leading-none z-10 hover:bg-gray-700 transition-colors">
+                &times;
+            </button>
+            <div id="reasons-display" class="flex flex-col items-center justify-center space-y-4 w-full h-full text-pink-600 overflow-y-auto">
+                <h2 class="text-4xl font-dancing-script font-bold mb-4">100 Reasons Why I Love You</h2>
+                <!-- The reasons will be dynamically added here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Link to our JavaScript file for interactivity -->
+    <script src="script.js"></script>
+</body>
+</html>

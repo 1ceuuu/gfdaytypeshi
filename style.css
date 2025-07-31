@@ -1,0 +1,414 @@
+/* Basic styling for the body and overall layout is handled by Tailwind in index.html */
+
+/* Styles for the envelope wrapper */
+#envelope-wrapper {
+    /* Tailwind classes (w-80 h-56) in index.html now handle initial size, positioning, and transitions */
+    /* Add perspective for a more realistic 3D flap rotation */
+    perspective: 1000px; /* Gives a 3D effect to child elements */
+}
+
+/* Styles for the main envelope body */
+#envelope {
+    /* Tailwind classes handle initial size, background, rounded corners, shadow, and overflow */
+    /* Use a subtle gradient for a more realistic paper look */
+    background: linear-gradient(to bottom, #ffccd5, #ffb3c1); /* Soft pink gradient */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* More pronounced shadow */
+}
+
+/* Styles for the envelope back, visible when the flap opens */
+.envelope-back {
+    /* Tailwind classes handle absolute positioning and background */
+    background-color: #ff8fab; /* A slightly darker, richer pink for the back */
+}
+
+/* Styles for the top flap of the envelope */
+.envelope-flap-top {
+    /* Tailwind classes handle absolute positioning, size, background, rounded corners, origin, and transitions */
+    /* This creates the triangular top flap using borders */
+    border-left: 160px solid transparent; /* Original size: 320px envelope width / 2 */
+    border-right: 160px solid transparent; /* Original size: 320px envelope width / 2 */
+    border-bottom: 112px solid #e06c9f; /* Original size: 224px envelope height / 2 */
+    background-color: transparent; /* Make background transparent to show border */
+    transform-origin: top; /* Ensure rotation is from the top edge */
+    transition: transform 0.7s ease-in-out, z-index 0s 0.7s; /* Delay z-index change until after transform */
+    z-index: 10; /* Ensure it's above other parts initially */
+    /* Add a subtle shadow to the top flap itself for a lifted appearance */
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles for the "Click Me!" text */
+#click-me-text {
+    /* Tailwind classes handle absolute positioning, centering, text style, opacity, and transitions */
+    transition: opacity 0.3s ease-out; /* Smooth fade out */
+    font-size: 2rem; /* Reverted to original size */
+}
+
+/* Styles for the letter content */
+#letter {
+    /* Tailwind classes handle absolute positioning, background, padding, rounded corners, shadow, initial scale/opacity, and transitions */
+    /* Initially hidden and scaled down within the envelope */
+    position: absolute; /* Ensure absolute positioning for top/left centering */
+    top: 50%; /* Center vertically within the envelope */
+    left: 50%; /* Center horizontally within the envelope */
+    transform: translate(-50%, -50%) scale(0.8); /* Center and scale down */
+    opacity: 0;
+    /* Ensure content within the letter is aligned correctly */
+    display: grid; /* Already set in HTML, but good to reinforce */
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    gap: 1rem; /* Tailwind's gap-4 is 1rem */
+    padding: 1.5rem; /* Reverted to original size */
+    box-sizing: border-box; /* Include padding in element's total width and height */
+    /* Initial transition properties for when it appears */
+    transition: all 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+
+    /* Custom GIF background for the expanded panel */
+    background-image: url('https://i.pinimg.com/originals/54/f6/20/54f620699cef1b5736f989356f235da9.gif'); /* Placeholder GIF URL */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* --- Envelope Open State --- */
+/* These classes are added by JavaScript when the envelope is clicked */
+
+/* When envelope-wrapper has 'open' class, rotate the top flap */
+#envelope-wrapper.open .envelope-flap-top {
+    transform: rotateX(180deg); /* Flips the top flap open */
+    z-index: 0; /* Move behind the letter when open */
+    transition: transform 0.7s ease-in-out, z-index 0s 0s; /* Change z-index immediately when opening */
+}
+
+/* When envelope-wrapper has 'open' class, make the letter visible and larger */
+#envelope-wrapper.open #letter {
+    position: fixed; /* Position relative to the viewport to break out of envelope */
+    top: 50%;
+    left: 50%;
+    width: 90vw; /* Make it 90% of the viewport width */
+    height: 90vh; /* Make it 90% of the viewport height */
+    transform: translate(-50%, -50%) scale(1); /* Center it on screen and scale to full size */
+    opacity: 1; /* Make fully opaque */
+    z-index: 100; /* Bring letter to front, above all other content */
+    /* Ensure a smooth transition for new properties like width, height, top, left */
+    transition: all 0.9s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* More pronounced bounce transition */
+
+    /* Ensure grid rows take up equal space when expanded */
+    grid-template-rows: 1fr 1fr;
+
+    /* Allow scrolling if content overflows on smaller screens */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /* Improves scrolling performance on iOS */
+}
+
+/* Ensure direct children of the grid fill their cells */
+#letter > div,
+#letter > .panel {
+    height: 100%; /* Make sure children fill the height of their grid cell */
+    width: 100%; /* Make sure children fill the width of their grid cell */
+}
+
+
+/* When envelope-wrapper has 'open' class, hide the "Click Me!" text */
+#envelope-wrapper.open #click-me-text {
+    opacity: 0; /* Fade out the text */
+}
+
+/* Additional styling for the envelope body to create the side flaps */
+#envelope::before,
+#envelope::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    z-index: 2; /* Keep these above the letter initially */
+    transition: transform 0.6s ease-out, opacity 0.6s ease-out; /* Smoother transition for side flaps */
+}
+
+/* Left flap */
+#envelope::before {
+    border-top: 80px solid transparent; /* Original size */
+    border-bottom: 80px solid transparent; /* Original size */
+    border-left: 170px solid #e06c9f; /* Original size */
+    left: 0;
+    top: 0;
+    transform-origin: left;
+}
+
+/* Right flap */
+#envelope::after {
+    border-top: 80px solid transparent; /* Original size */
+    border-bottom: 80px solid transparent; /* Original size */
+    border-right: 170px solid #e06c9f; /* Original size */
+    right: 0;
+    top: 0;
+    transform-origin: right;
+}
+
+/* When envelope-wrapper has 'open' class, hide the side flaps */
+#envelope-wrapper.open #envelope::before {
+    transform: translateX(-100%) scaleX(0.5); /* Slide out and slightly shrink */
+    opacity: 0;
+}
+
+#envelope-wrapper.open #envelope::after {
+    transform: translateX(100%) scaleX(0.5); /* Slide out and slightly shrink */
+    opacity: 0;
+}
+
+/* --- Heart Styling --- */
+#envelope-heart {
+    position: absolute;
+    width: 40px; /* Reverted to original size */
+    height: 40px; /* Reverted to original size */
+    background-color: #ff007f; /* Vibrant pink for the heart */
+    transform: rotate(-45deg); /* Rotate to form the diamond shape */
+    top: 50%;
+    left: 50%;
+    margin-top: -20px; /* Reverted to original size */
+    margin-left: -20px; /* Reverted to original size */
+    z-index: 20; /* Ensure it's above other envelope parts */
+    transition: opacity 0.3s ease-out, transform 0.7s ease-in-out; /* Smooth fade and scale */
+}
+
+/* Create the top-left circle of the heart */
+#envelope-heart::before {
+    content: '';
+    position: absolute;
+    width: 40px; /* Reverted to original size */
+    height: 40px; /* Reverted to original size */
+    background-color: #ff007f;
+    border-radius: 50%;
+    top: -20px; /* Reverted to original size */
+    left: 0;
+}
+
+/* Create the top-right circle of the heart */
+#envelope-heart::after {
+    content: '';
+    position: absolute;
+    width: 40px; /* Reverted to original size */
+    height: 40px; /* Reverted to original size */
+    background-color: #ff007f;
+    border-radius: 50%;
+    top: 0;
+    left: 20px; /* Reverted to original size */
+}
+
+/* Hide the heart when the envelope opens */
+#envelope-wrapper.open #envelope-heart {
+    opacity: 0;
+    transform: rotate(-45deg) scale(0); /* Scale down to disappear */
+}
+
+/* --- Panel Specific Styling --- */
+.panel {
+    box-sizing: border-box;
+    overflow: hidden;
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out; /* Add transition for smooth hover */
+    cursor: pointer; /* Ensure cursor is pointer for clickable elements */
+    touch-action: manipulation; /* Improves responsiveness of touch events */
+}
+
+.panel:hover {
+    transform: scale(1.03); /* Slightly enlarge on hover */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3); /* More pronounced shadow on hover */
+}
+
+/* Ensure images within panels are responsive */
+.panel img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0.5rem;
+}
+
+/* --- Image Pop-up Styles --- */
+#image-popup {
+    /* Tailwind classes handle most of the base styling (fixed, inset-0, bg-opacity-75, flex, etc.) */
+    /* Add specific styles for its active state */
+}
+
+#image-popup.active {
+    opacity: 1; /* Make visible */
+    pointer-events: auto; /* Enable interactions */
+}
+
+.popup-content-wrapper {
+    /* Set fixed dimensions for the pop-up content to match the image */
+    width: 1920px; /* Updated width for landscape image */
+    height: 1080px; /* Updated height for landscape image */
+    /* Override max-w/max-h from Tailwind if they were on this element */
+    max-width: 90vw; /* Ensure it doesn't exceed viewport width */
+    max-height: 90vh; /* Ensure it doesn't exceed viewport height */
+    /* Ensure padding is considered in the total size */
+    box-sizing: border-box;
+    /* Removed background and padding to make the image the sole content */
+    background-color: transparent; /* Make background transparent */
+    padding: 0; /* Remove padding */
+    /* Allow scrolling if the content is larger than the screen */
+    overflow: auto;
+    -webkit-overflow-scrolling: touch; /* For smooth scrolling on iOS */
+}
+
+#image-popup #close-popup {
+    /* Tailwind classes handle most of the styling (absolute, top-2, right-2, etc.) */
+    cursor: pointer;
+    user-select: none; /* Prevent text selection on button */
+    /* Ensure the close button is visible against the image */
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background for visibility */
+}
+
+/* Ensure the image inside the popup fills its container */
+#popup-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Use contain to ensure the whole image is visible */
+    border-radius: 0.5rem; /* Apply rounded corners to the image itself */
+}
+
+/* --- Songs Pop-up Styles --- */
+#songs-popup {
+    /* Tailwind classes handle most of the base styling (fixed, inset-0, bg-opacity-75, flex, etc.) */
+    /* Add specific styles for its active state */
+}
+
+#songs-popup.active {
+    opacity: 1; /* Make visible */
+    pointer-events: auto; /* Enable interactions */
+}
+
+.songs-popup-content-wrapper {
+    background-color: #ffffff; /* White background for the songs pop-up */
+    border-radius: 1rem; /* Rounded corners */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Shadow for depth */
+    width: 95vw; /* Increased from 90vw */
+    max-width: 1000px; /* Increased from 800px */
+    height: 95vh; /* Increased from 90vh */
+    max-height: 750px; /* Increased from 600px */
+    box-sizing: border-box;
+    overflow: hidden; /* Hide overflow from rounded corners */
+    /* Removed flex properties here as songs-layout-grid will handle layout */
+    padding: 1.5rem; /* Padding inside the pop-up */
+}
+
+#close-songs-popup {
+    cursor: pointer;
+    user-select: none;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.songs-layout-grid {
+    width: 100%;
+    height: 100%; /* Ensure the grid takes full height of its parent */
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 columns, equal width */
+    grid-template-rows: repeat(3, 1fr); /* 3 rows, equal height */
+    gap: 0.75rem; /* Gap between grid items */
+    align-items: center; /* Vertically center content in grid cells */
+    justify-items: center; /* Horizontally center content in grid cells */
+}
+
+.central-image-wrapper {
+    /* Removed fixed max-width/height here, let the grid cell size it */
+    width: 100%;
+    height: 100%; /* Ensure wrapper fills its grid cell */
+    display: flex;
+    justify-content: center; /* Center the image horizontally within its wrapper */
+    align-items: center; /* Center the image vertically within its wrapper */
+    /* Removed margin-bottom as grid gap handles spacing */
+}
+
+#central-song-image {
+    max-width: 100%; /* Ensure image doesn't overflow its wrapper */
+    max-height: 100%; /* Ensure image doesn't overflow its wrapper */
+    object-fit: contain; /* Ensure image fits without cropping */
+    border-radius: 0.5rem; /* Apply rounded corners */
+}
+
+.song-thumbnail {
+    width: 100%; /* Fill width of grid cell */
+    height: 100%; /* Fill height of grid cell */
+    object-fit: cover; /* Cover the area, cropping if necessary */
+    border-radius: 0.5rem; /* Rounded corners for thumbnails */
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out; /* Smooth hover effect */
+}
+
+.song-thumbnail:hover {
+    transform: scale(1.05); /* Slightly enlarge on hover */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* More pronounced shadow on hover */
+}
+
+/* --- 100 Reasons Pop-up Styles --- */
+#reasons-popup {
+    /* Tailwind classes handle base styling (fixed, inset-0, bg-opacity-75, flex, etc.) */
+}
+
+#reasons-popup.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.reasons-popup-content-wrapper {
+    width: 90vw;
+    max-width: 600px; /* A good maximum width for readability */
+    height: 90vh;
+    max-height: 800px; /* A good maximum height */
+    background-color: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    box-sizing: border-box;
+}
+
+#close-reasons-popup {
+    cursor: pointer;
+    user-select: none;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#reasons-display {
+    width: 100%;
+    height: 100%;
+    padding-top: 1rem; /* Space below the title */
+    overflow-y: auto; /* Make the list scrollable */
+    -webkit-overflow-scrolling: touch; /* For smooth scrolling on iOS */
+}
+
+.reason-phrase {
+    opacity: 0;
+    transition: opacity 0.5s ease-in;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.5rem; /* Font size for the phrases */
+    line-height: 1.5; /* Spacing between lines */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+/* --- Heart Sprinkle Animation --- */
+@keyframes sprinkle {
+    0% {
+        transform: translate(0, 0) scale(0) rotate(0deg);
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+        transform: translate(var(--x), var(--y)) scale(1) rotate(var(--rot));
+    }
+    100% {
+        transform: translate(var(--x-end), var(--y-end)) scale(0.5) rotate(var(--rot-end));
+        opacity: 0;
+    }
+}
+
+.heart {
+    position: absolute;
+    font-size: 2rem; /* Size of the heart emoji */
+    color: #ff007f; /* Pink color for the heart */
+    text-shadow: 0 0 5px rgba(0,0,0,0.2); /* Subtle shadow for depth */
+    animation: sprinkle 3s forwards ease-out; /* Apply the animation */
+    pointer-events: none; /* Ensure hearts don't block clicks */
+    user-select: none; /* Prevent text selection */
+    will-change: transform, opacity; /* Optimize for animation performance */
+}
