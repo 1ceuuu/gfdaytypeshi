@@ -23,7 +23,6 @@
 
 /* Styles for the top flap of the envelope */
 .envelope-flap-top {
-    /* Tailwind classes handle absolute positioning, size, background, rounded corners, origin, and transitions */
     /* This creates the triangular top flap using borders */
     border-left: 160px solid transparent; /* Original size: 320px envelope width / 2 */
     border-right: 160px solid transparent; /* Original size: 320px envelope width / 2 */
@@ -33,83 +32,67 @@
     transition: transform 0.7s ease-in-out, z-index 0s 0.7s; /* Delay z-index change until after transform */
     z-index: 10; /* Ensure it's above other parts initially */
     /* Add a subtle shadow to the top flap itself for a lifted appearance */
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 /* Styles for the "Click Me!" text */
 #click-me-text {
-    /* Tailwind classes handle absolute positioning, centering, text style, opacity, and transitions */
     transition: opacity 0.3s ease-out; /* Smooth fade out */
-    font-size: 2rem; /* Reverted to original size */
+    font-size: 2rem;
 }
 
 /* Styles for the letter content */
 #letter {
-    /* Tailwind classes handle absolute positioning, background, padding, rounded corners, shadow, initial scale/opacity, and transitions */
-    /* Initially hidden and scaled down within the envelope */
-    position: absolute; /* Ensure absolute positioning for top/left centering */
-    top: 50%; /* Center vertically within the envelope */
-    left: 50%; /* Center horizontally within the envelope */
-    transform: translate(-50%, -50%) scale(0.8); /* Center and scale down */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
     opacity: 0;
-    /* Ensure content within the letter is aligned correctly */
-    display: grid; /* Already set in HTML, but good to reinforce */
-    grid-template-columns: 1fr 1fr; /* Two equal columns */
-    gap: 1rem; /* Tailwind's gap-4 is 1rem */
-    padding: 1.5rem; /* Reverted to original size */
-    box-sizing: border-box; /* Include padding in element's total width and height */
-    /* Initial transition properties for when it appears */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    padding: 1.5rem;
+    box-sizing: border-box;
     transition: all 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-
-    /* Custom GIF background for the expanded panel */
-    background-image: url('https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaW50MW1uYnlqZ2N1d25kZW5hZ2s2ZG9zY3lqZ25vYXFjM3Q1N3F6aiZlcD12MV9pbnRlcm5uYWxfnaWZfYnlfaWQmY3Q9Zw/3o7bu3XyLgq3g1YQKI/giphy.gif'); /* Placeholder GIF URL */
+    background-image: url('https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaW50MW1uYnlqZ2N1d25kZW5hZ2s2ZG9zY3lqZ25vYXFjM3Q1N3F6aiZlcD12MV9pbnRlcm5uYWxfnaWZfYnlfaWQmY3Q9Zw/3o7bu3XyLgq3g1YQKI/giphy.gif');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 }
 
 /* --- Envelope Open State --- */
-/* These classes are added by JavaScript when the envelope is clicked */
-
-/* When envelope-wrapper has 'open' class, rotate the top flap */
 #envelope-wrapper.open .envelope-flap-top {
-    transform: rotateX(180deg); /* Flips the top flap open */
-    z-index: 0; /* Move behind the letter when open */
-    transition: transform 0.7s ease-in-out, z-index 0s 0s; /* Change z-index immediately when opening */
+    transform: rotateX(180deg);
+    z-index: 0;
+    transition: transform 0.7s ease-in-out, z-index 0s 0s;
 }
 
-/* When envelope-wrapper has 'open' class, make the letter visible and larger */
 #envelope-wrapper.open #letter {
-    position: fixed; /* Position relative to the viewport to break out of envelope */
+    position: fixed;
     top: 50%;
     left: 50%;
-    width: 90vw; /* Make it 90% of the viewport width */
-    height: 90vh; /* Make it 90% of the viewport height */
-    transform: translate(-50%, -50%) scale(1); /* Center it on screen and scale to full size */
-    opacity: 1; /* Make fully opaque */
-    z-index: 100; /* Bring letter to front, above all other content */
-    /* Ensure a smooth transition for new properties like width, height, top, left */
-    transition: all 0.9s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* More pronounced bounce transition */
-
-    /* Ensure grid rows take up equal space when expanded */
+    width: 90vw;
+    height: 90vh;
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    z-index: 100;
+    transition: all 0.9s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     grid-template-rows: 1fr 1fr;
-
-    /* Allow scrolling if content overflows on smaller screens */
     overflow-y: auto;
-    -webkit-overflow-scrolling: touch; /* Improves scrolling performance on iOS */
+    -webkit-overflow-scrolling: touch;
 }
 
 /* Ensure direct children of the grid fill their cells */
 #letter > div,
 #letter > .panel {
-    height: 100%; /* Make sure children fill the height of their grid cell */
-    width: 100%; /* Make sure children fill the width of their grid cell */
+    height: 100%;
+    width: 100%;
 }
 
 
 /* When envelope-wrapper has 'open' class, hide the "Click Me!" text */
 #envelope-wrapper.open #click-me-text {
-    opacity: 0; /* Fade out the text */
+    opacity: 0;
 }
 
 /* Additional styling for the envelope body to create the side flaps */
@@ -119,15 +102,15 @@
     position: absolute;
     width: 0;
     height: 0;
-    z-index: 2; /* Keep these above the letter initially */
-    transition: transform 0.6s ease-out, opacity 0.6s ease-out; /* Smoother transition for side flaps */
+    z-index: 2;
+    transition: transform 0.6s ease-out, opacity 0.6s ease-out;
 }
 
 /* Left flap */
 #envelope::before {
-    border-top: 80px solid transparent; /* Original size */
-    border-bottom: 80px solid transparent; /* Original size */
-    border-left: 170px solid #e06c9f; /* Original size */
+    border-top: 80px solid transparent;
+    border-bottom: 80px solid transparent;
+    border-left: 170px solid #e06c9f;
     left: 0;
     top: 0;
     transform-origin: left;
@@ -135,9 +118,9 @@
 
 /* Right flap */
 #envelope::after {
-    border-top: 80px solid transparent; /* Original size */
-    border-bottom: 80px solid transparent; /* Original size */
-    border-right: 170px solid #e06c9f; /* Original size */
+    border-top: 80px solid transparent;
+    border-bottom: 80px solid transparent;
+    border-right: 170px solid #e06c9f;
     right: 0;
     top: 0;
     transform-origin: right;
@@ -145,39 +128,39 @@
 
 /* When envelope-wrapper has 'open' class, hide the side flaps */
 #envelope-wrapper.open #envelope::before {
-    transform: translateX(-100%) scaleX(0.5); /* Slide out and slightly shrink */
+    transform: translateX(-100%) scaleX(0.5);
     opacity: 0;
 }
 
 #envelope-wrapper.open #envelope::after {
-    transform: translateX(100%) scaleX(0.5); /* Slide out and slightly shrink */
+    transform: translateX(100%) scaleX(0.5);
     opacity: 0;
 }
 
 /* --- Heart Styling --- */
 #envelope-heart {
     position: absolute;
-    width: 40px; /* Reverted to original size */
-    height: 40px; /* Reverted to original size */
-    background-color: #ff007f; /* Vibrant pink for the heart */
-    transform: rotate(-45deg); /* Rotate to form the diamond shape */
+    width: 40px;
+    height: 40px;
+    background-color: #ff007f;
+    transform: rotate(-45deg);
     top: 50%;
     left: 50%;
-    margin-top: -20px; /* Reverted to original size */
-    margin-left: -20px; /* Reverted to original size */
-    z-index: 20; /* Ensure it's above other envelope parts */
-    transition: opacity 0.3s ease-out, transform 0.7s ease-in-out; /* Smooth fade and scale */
+    margin-top: -20px;
+    margin-left: -20px;
+    z-index: 20;
+    transition: opacity 0.3s ease-out, transform 0.7s ease-in-out;
 }
 
 /* Create the top-left circle of the heart */
 #envelope-heart::before {
     content: '';
     position: absolute;
-    width: 40px; /* Reverted to original size */
-    height: 40px; /* Reverted to original size */
+    width: 40px;
+    height: 40px;
     background-color: #ff007f;
     border-radius: 50%;
-    top: -20px; /* Reverted to original size */
+    top: -20px;
     left: 0;
 }
 
@@ -185,32 +168,32 @@
 #envelope-heart::after {
     content: '';
     position: absolute;
-    width: 40px; /* Reverted to original size */
-    height: 40px; /* Reverted to original size */
+    width: 40px;
+    height: 40px;
     background-color: #ff007f;
     border-radius: 50%;
     top: 0;
-    left: 20px; /* Reverted to original size */
+    left: 20px;
 }
 
 /* Hide the heart when the envelope opens */
 #envelope-wrapper.open #envelope-heart {
     opacity: 0;
-    transform: rotate(-45deg) scale(0); /* Scale down to disappear */
+    transform: rotate(-45deg) scale(0);
 }
 
 /* --- Panel Specific Styling --- */
 .panel {
     box-sizing: border-box;
     overflow: hidden;
-    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out; /* Add transition for smooth hover */
-    cursor: pointer; /* Ensure cursor is pointer for clickable elements */
-    touch-action: manipulation; /* Improves responsiveness of touch events */
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+    cursor: pointer;
+    touch-action: manipulation;
 }
 
 .panel:hover {
-    transform: scale(1.03); /* Slightly enlarge on hover */
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3); /* More pronounced shadow on hover */
+    transform: scale(1.03);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
 }
 
 /* Ensure images within panels are responsive */
@@ -225,71 +208,61 @@
 /* --- Image Pop-up Styles --- */
 #image-popup {
     /* Tailwind classes handle most of the base styling (fixed, inset-0, bg-opacity-75, flex, etc.) */
-    /* Add specific styles for its active state */
 }
 
 #image-popup.active {
-    opacity: 1; /* Make visible */
-    pointer-events: auto; /* Enable interactions */
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .popup-content-wrapper {
     /* Responsive dimensions for the pop-up content */
-    width: 90vw;
-    height: auto; /* Let the height be determined by the content */
-    max-width: 1920px; /* A reasonable max-width for large screens */
-    /* Override max-h from Tailwind */
-    max-height: none;
-    /* Ensure padding is considered in the total size */
+    width: auto;
+    height: auto;
+    max-width: 90vw;
+    max-height: 90vh;
     box-sizing: border-box;
-    /* Removed background and padding to make the image the sole content */
-    background-color: transparent; /* Make background transparent */
-    padding: 0; /* Remove padding */
-    /* Allow scrolling if the content is larger than the screen */
+    background-color: transparent;
+    padding: 0;
     overflow: auto;
-    -webkit-overflow-scrolling: touch; /* For smooth scrolling on iOS */
+    -webkit-overflow-scrolling: touch;
 }
 
 #image-popup #close-popup {
-    /* Tailwind classes handle most of the styling (absolute, top-2, right-2, etc.) */
     cursor: pointer;
-    user-select: none; /* Prevent text selection on button */
-    /* Ensure the close button is visible against the image */
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background for visibility */
+    user-select: none;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
-/* Ensure the image inside the popup fills its container */
 #popup-image {
     width: 100%;
-    height: auto; /* Let the height scale with the width to maintain aspect ratio */
-    max-height: 90vh; /* Ensure the image doesn't overflow the viewport height */
-    object-fit: contain; /* Use contain to ensure the whole image is visible */
-    border-radius: 0.5rem; /* Apply rounded corners to the image itself */
+    height: auto;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 0.5rem;
 }
 
 /* --- Songs Pop-up Styles --- */
 #songs-popup {
     /* Tailwind classes handle most of the base styling (fixed, inset-0, bg-opacity-75, flex, etc.) */
-    /* Add specific styles for its active state */
 }
 
 #songs-popup.active {
-    opacity: 1; /* Make visible */
-    pointer-events: auto; /* Enable interactions */
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .songs-popup-content-wrapper {
-    background-color: #ffffff; /* White background for the songs pop-up */
-    border-radius: 1rem; /* Rounded corners */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Shadow for depth */
-    width: 95vw; /* Increased from 90vw */
-    max-width: 1000px; /* Increased from 800px */
-    height: 95vh; /* Increased from 90vh */
-    max-height: 750px; /* Increased from 600px */
+    background-color: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    width: 95vw;
+    max-width: 1000px;
+    height: 95vh;
+    max-height: 750px;
     box-sizing: border-box;
-    overflow: hidden; /* Hide overflow from rounded corners */
-    /* Removed flex properties here as songs-layout-grid will handle layout */
-    padding: 1.5rem; /* Padding inside the pop-up */
+    overflow: hidden;
+    padding: 1.5rem;
 }
 
 #close-songs-popup {
@@ -300,43 +273,41 @@
 
 .songs-layout-grid {
     width: 100%;
-    height: 100%; /* Ensure the grid takes full height of its parent */
+    height: 100%;
     display: grid;
-    grid-template-columns: repeat(5, 1fr); /* 5 columns, equal width */
-    grid-template-rows: repeat(3, 1fr); /* 3 rows, equal height */
-    gap: 0.75rem; /* Gap between grid items */
-    align-items: center; /* Vertically center content in grid cells */
-    justify-items: center; /* Horizontally center content in grid cells */
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 0.75rem;
+    align-items: center;
+    justify-items: center;
 }
 
 .central-image-wrapper {
-    /* Removed fixed max-width/height here, let the grid cell size it */
     width: 100%;
-    height: 100%; /* Ensure wrapper fills its grid cell */
+    height: 100%;
     display: flex;
-    justify-content: center; /* Center the image horizontally within its wrapper */
-    align-items: center; /* Center the image vertically within its wrapper */
-    /* Removed margin-bottom as grid gap handles spacing */
+    justify-content: center;
+    align-items: center;
 }
 
 #central-song-image {
-    max-width: 100%; /* Ensure image doesn't overflow its wrapper */
-    max-height: 100%; /* Ensure image doesn't overflow its wrapper */
-    object-fit: contain; /* Ensure image fits without cropping */
-    border-radius: 0.5rem; /* Apply rounded corners */
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 0.5rem;
 }
 
 .song-thumbnail {
-    width: 100%; /* Fill width of grid cell */
-    height: 100%; /* Fill height of grid cell */
-    object-fit: cover; /* Cover the area, cropping if necessary */
-    border-radius: 0.5rem; /* Rounded corners for thumbnails */
-    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out; /* Smooth hover effect */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
 }
 
 .song-thumbnail:hover {
-    transform: scale(1.05); /* Slightly enlarge on hover */
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* More pronounced shadow on hover */
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 /* --- 100 Reasons Pop-up Styles --- */
@@ -351,9 +322,9 @@
 
 .reasons-popup-content-wrapper {
     width: 90vw;
-    max-width: 600px; /* A good maximum width for readability */
+    max-width: 600px;
     height: 90vh;
-    max-height: 800px; /* A good maximum height */
+    max-height: 800px;
     background-color: #ffffff;
     border-radius: 1rem;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
@@ -373,18 +344,35 @@
 #reasons-display {
     width: 100%;
     height: 100%;
-    padding-top: 1rem; /* Space below the title */
-    overflow-y: auto; /* Make the list scrollable */
-    -webkit-overflow-scrolling: touch; /* For smooth scrolling on iOS */
+    padding-top: 1rem;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .reason-phrase {
-    opacity: 0;
-    transition: opacity 0.5s ease-in;
     font-family: 'Dancing Script', cursive;
-    font-size: 1.5rem; /* Font size for the phrases */
-    line-height: 1.5; /* Spacing between lines */
+    font-size: 1.5rem;
+    line-height: 1.5;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Make the pop-up full screen on smaller devices */
+@media (max-width: 640px) {
+    .reasons-popup-content-wrapper {
+        width: 100vw;
+        height: 100vh;
+        max-width: none;
+        max-height: none;
+        padding: 1rem;
+    }
+
+    #reasons-display {
+        padding-top: 0.5rem;
+    }
+
+    .reason-phrase {
+        font-size: 1.25rem;
+    }
 }
 
 /* --- Heart Sprinkle Animation --- */
@@ -405,11 +393,11 @@
 
 .heart {
     position: absolute;
-    font-size: 2rem; /* Size of the heart emoji */
-    color: #ff007f; /* Pink color for the heart */
-    text-shadow: 0 0 5px rgba(0,0,0,0.2); /* Subtle shadow for depth */
-    animation: sprinkle 3s forwards ease-out; /* Apply the animation */
-    pointer-events: none; /* Ensure hearts don't block clicks */
-    user-select: none; /* Prevent text selection */
-    will-change: transform, opacity; /* Optimize for animation performance */
+    font-size: 2rem;
+    color: #ff007f;
+    text-shadow: 0 0 5px rgba(0,0,0,0.2);
+    animation: sprinkle 3s forwards ease-out;
+    pointer-events: none;
+    user-select: none;
+    will-change: transform, opacity;
 }
